@@ -1,13 +1,4 @@
-{/* <script> */}
-    
-Object.size = function(obj) {
-    var size = 0,
-        key;
-    for (key in obj) {
-        if (obj.hasOwnProperty(key)) size++;
-    }
-    return size;
-};
+<script>
 
 function countProperties(obj) {
     var count = 0;
@@ -187,71 +178,85 @@ function myFunction() {
                 response.json().then(function(data) {
                     // Do something.
                     console.log(data);
+                    console.log(data.variants);
                     // Get product brand element.
                     var $productBrand = document.getElementById('checkout-product-brand');
                     // Setting brand's product title.
                     $productBrand.innerHTML = data.brand.title;
 
-                    console.log(data.variants);
+                    // Function returning shoe sizes sorted numerically.
+                    function shoeSizesSort() {
+                        
+                        // Get shoe variants datas.
+                        let shoeVariants = data.variants;
+                        // console.log(shoeVariants);
 
+                        // Create new empty array.
+                        let variantsArray = new Array();
+                        for (const key in shoeVariants) {
+                            // Store ID, SIZE and PRICE in array.
+                            variantsArray.push([
+                                shoeVariants[key].id, 
+                                shoeVariants[key].title, 
+                                shoeVariants[key].price.price_incl_money_without_currency
+                            ]);
+                        }
+                        // console.log(variantsArray);
 
-
-                    // Create rules for sorting product sizes.
-                    const sortAlphaNum = (a, b) => a.localeCompare(b, 'en', { numeric: true })
-                    // Create new empty array for product sizes.
-                    const productSizes = new Array();
-                    // Adding sizes into array.
-                    for (const property in data.variants) {
-                        // Removing "Size : " text from string to add.
-                        var productSize = data.variants[property].title.split('Size : ')[1];
-                        productSizes.push(productSize);
-                    }
-
-                    // Sorting product Sizes.
-                    var productSizesSorted = productSizes.sort(sortAlphaNum);
-                    // Transform product sorted sizes Array into Object.
-                    const returnedTarget = Object.assign({}, productSizesSorted);
-                    console.log(returnedTarget);
-
-                    // Get the size of an object
-                    var returnedTargetCount = Object.size(returnedTarget);
-
-                    var myObj = new Object();
-
-                    for (const key of Object.entries(data.variants)) {
-                        // console.log(`id : ${key[1].id}`);
-                        // console.log(`size : ${key[1].title}`);
-                        // console.log(`price : ${key[1].price.price_incl_money_without_currency}`);
-                        myObj[key[1].id] = {
-                            id: key[1].id,
-                            size: key[1].title,
-                            price: key[1].price.price_incl_money_without_currency
+                        // Create new empty array.
+                        let sizesArray = new Array();
+                        for (let i = 0; i <= variantsArray.length -1; i++){
+                            // Store IDs in array.
+                            sizesArray.push(variantsArray[i][1]);
                         };
-                    }
-                    
-                    console.log(myObj);
+                        // console.log(sizesArray);
 
+                        // Sorting product sizes.
+                        sizesArray.sort((a, b) => {
+                            // As long as there is the letters "US", 
+                            // followed by a space, followed by a floating point number, the regex will work.
+                            return +a.match(/US\s([\d\.]*)/)[1] - +b.match(/US\s([\d\.]*)/)[1];
+                        });
+                        // console.log(sizesArray);
+
+                        // Create new empty array.
+                        let result = new Array();
+                        sizesArray.forEach(function(key) {
+                            var found = false;
+                            // Returns the elements of an array that meet the condition specified in a callback function.
+                            variantsArray = variantsArray.filter(function(item) {
+                                // Comparing variant sizes string equal sorted sizes string.
+                                if(!found && item[1] == key) {
+                                    result.push(item);
+                                    found = true;
+                                    return false;
+                                } else 
+                                    return true;
+                            });
+                        })
+                        // console.log(result);
+                        return result;
+                    }
+
+                    // Call function.
+                    var shoeSizesSorted = shoeSizesSort();
+                    // console.log(shoeSizesSorted);
+
+                    // Create sizes to display in template.
                     var htmlSize = '';
-                    for (const key of Object.entries(data.variants)) {
+                    for (const key in shoeSizesSorted) {
                         // Set variant NAME (size) in variable.
-                        var productVariantSizeTitle = key[1].title.split('Size : ')[1];
+                        var productVariantSizeTitle = shoeSizesSorted[key][1].split('Size : ')[1];
                         // Set variant ID in variable.
-                        var productVariantId = key[1].id;
+                        var productVariantId = shoeSizesSorted[key][0];
                         // Set variant PRICE in variable.
-                        var productVariantPrice = key[1].price.price_incl_money_without_currency;
-                        // console.log(productVariantPrice);
+                        var productVariantPrice = shoeSizesSorted[key][2];
                         // Insert <input> into HTML.
                         htmlSize += `<input type="button" id="select-${productVariantId}" class="checkout-product-selected-size flex-item" variantId="${productVariantId}" value="${productVariantSizeTitle}" data-select-product-price="${productVariantPrice}" onclick="clickButtonUpdateDatasOnPage()">`;
                     }
 
-
-
-
                     // Insert SIZE to show in HTML.
                     $sizeShow.innerHTML = htmlSize;
-                    // Get count of variants product.
-                    var productVariantsCount = countProperties(data.variants);
-                    // console.log(productVariantsCount);
                 });
               } else {
               console.log('Network error.');
@@ -455,4 +460,4 @@ addLoadEvent(preloader(myUrls));
 
 });
 
-// </script>
+</script>
