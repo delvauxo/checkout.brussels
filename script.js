@@ -173,7 +173,7 @@ function myFunction() {
             var url = `https://check-out.webshopapp.com/product/${ClickedImgVariantUrlNoExtension}.ajax`;
 
             fetch(url).then(function(response) {
-              console.log(response);
+            // console.log(response);
               if(response.ok) {
                 response.json().then(function(data) {
                     // Do something.
@@ -276,7 +276,7 @@ var filterUrlFetch = window.location.protocol + "//" + window.location.host + wi
 
 // FETCHING DATAS.
 fetch(filterUrlFetch).then(function(response) {
-  console.log(response);
+  // console.log(response);
   if(response.ok) {
     response.json().then(function(data) {
         // Do something.
@@ -295,7 +295,7 @@ fetch(filterUrlFetch).then(function(response) {
                     // console.log(filterUrlFetchPage);
                     // FETCH DATA FOR EACH PAGE.
                     fetch(filterUrlFetchPage).then(response => {
-                        console.log(response);
+                        // console.log(response);
                         if (response.ok) {
                             response.json().then(data => {
                                 console.log(data);
