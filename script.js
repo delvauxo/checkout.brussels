@@ -86,6 +86,10 @@ function myFunction() {
          var target = e.target; 
         if(target.className == 'checkout-img-clicked'){
 
+            // Reset Cart button display.
+            $productAvailableContainer.classList.remove("checkout-product-available-on");
+            $productAvailableContainer.classList.add("checkout-product-available-off");
+
             // Get clicked image Src.
             var clickedImgSrc = target.getAttribute('data-src');
             // console.log(clickedImgSrc);
@@ -130,10 +134,6 @@ function myFunction() {
             // Set buy now BUTTON action URL with clicked product VID.
             $buttonBuyNowForm.action = $buttonBuyNowFormActionURL + $ClickedImgVariantVidAttr;
 
-            // Get product availability status.
-            var $ClickedImgVariantAvailabilityStatus = target.parentNode.parentNode.parentNode.getElementsByClassName('checkout-product-available-yes')[0];
-            // console.log($ClickedImgVariantAvailabilityStatus);
-
             // Get product price value.
             var $ClickedImgVariantPriceValue = target.parentNode.parentNode.parentNode.getElementsByClassName('prod-card__price')[0].textContent;
             // console.log($ClickedImgVariantPriceValue);
@@ -156,17 +156,6 @@ function myFunction() {
                 target.parentNode.parentNode.parentNode.classList.add("is-active");
             } else {
                 target.parentNode.parentNode.parentNode.classList.add("is-active");
-            }
-
-            // If product is AVAILABLE show buy buttons.
-            if ($ClickedImgVariantAvailabilityStatus) {
-                $productAvailableContainer.classList.remove("checkout-product-available-off");
-                $productAvailableContainer.classList.remove("checkout-product-available-on");
-                $productAvailableContainer.classList.add("checkout-product-available-on");
-            } else {
-                $productAvailableContainer.classList.remove("checkout-product-available-off");
-                $productAvailableContainer.classList.remove("checkout-product-available-on");
-                $productAvailableContainer.classList.add("checkout-product-available-off");
             }
 
             // FETCHING DATAS.
@@ -194,11 +183,12 @@ function myFunction() {
                         // Create new empty array.
                         let variantsArray = new Array();
                         for (const key in shoeVariants) {
-                            // Store ID, SIZE and PRICE in array.
+                            // Store ID, SIZE, PRICE and STOCK availability in array.
                             variantsArray.push([
                                 shoeVariants[key].id, 
                                 shoeVariants[key].title, 
-                                shoeVariants[key].price.price_incl_money_without_currency
+                                shoeVariants[key].price.price_incl_money_without_currency,
+                                shoeVariants[key].stock.on_stock
                             ]);
                         }
                         // console.log(variantsArray);
@@ -251,8 +241,19 @@ function myFunction() {
                         var productVariantId = shoeSizesSorted[key][0];
                         // Set variant PRICE in variable.
                         var productVariantPrice = shoeSizesSorted[key][2];
+                        // Set variant STOCK in variable.
+                        var productVariantStock = shoeSizesSorted[key][3];
                         // Insert <input> into HTML.
-                        htmlSize += `<input type="button" id="select-${productVariantId}" class="checkout-product-selected-size flex-item" variantId="${productVariantId}" value="${productVariantSizeTitle}" data-select-product-price="${productVariantPrice}" onclick="clickButtonUpdateDatasOnPage()">`;
+                        htmlSize += `<input type="button" `;
+                        htmlSize += `id="select-${productVariantId}" `;
+                        htmlSize += `class="checkout-product-selected-size flex-item" `;
+                        htmlSize += `variantId="${productVariantId}" `;
+                        htmlSize += `value="${productVariantSizeTitle}" `;
+                        htmlSize += `data-select-product-price="${productVariantPrice}" `;
+                        htmlSize += `data-select-product-stock="${productVariantStock}" `;
+                        htmlSize += `onclick="clickButtonUpdateDatasOnPage()"`;
+                        htmlSize += `>`;
+
                     }
 
                     // Insert SIZE to show in HTML.
@@ -394,11 +395,10 @@ function clickButtonUpdateDatasOnPage() {
     document.addEventListener('click', function(e) {
         e = e || window.event;
          var target = e.target; 
-        // console.log('you just clicked a value !');
+        // Get variant ID.
         var SelectedVariantID = target.getAttribute("variantId");
-        // console.log(SelectedVariantID);
+        // Get cart URL.
         var rawCartURL = currentCartURL.split('add/')[0];
-        // console.log('RAW : ' + rawCartURL);
         var newCartURL = rawCartURL + 'add/' + SelectedVariantID;
         // console.log(newCartURL);
         // Set selected product variant ID on add cart URL button.
@@ -421,9 +421,19 @@ function clickButtonUpdateDatasOnPage() {
         document.getElementById(`select-${SelectedVariantID}`).setAttribute('disabled', 'true');
         // Set selected product size price.
         $priceShow[0].innerHTML = newPrice + ' EUR';
-
+        // Get product availability status.
+        var $ClickedImgVariantAvailabilityStatus = target.getAttribute("data-select-product-stock");
+        // If product is AVAILABLE show add to cart button.
+        if ($ClickedImgVariantAvailabilityStatus == 'true') {
+            $productAvailableContainer.classList.remove("checkout-product-available-off");
+            $productAvailableContainer.classList.remove("checkout-product-available-on");
+            $productAvailableContainer.classList.add("checkout-product-available-on");
+        } else {
+            $productAvailableContainer.classList.remove("checkout-product-available-off");
+            $productAvailableContainer.classList.remove("checkout-product-available-on");
+            $productAvailableContainer.classList.add("checkout-product-available-off");
+        }
     }, {once: true});
-
 }
 
 
