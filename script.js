@@ -440,18 +440,15 @@ function clickButtonUpdateDatasOnPage() {
 // ON DOCUMENT READY.
 $(document).ready(function() { 
 
-///////// REDIRECTION.
-// // Get Canonical URL from header.
-// var $canUrl = document.querySelector("head > link[rel='canonical']");
-// var canUrlValue = $canUrl.getAttribute("href");
+/////// REDIRECTION.
+// Get Canonical URL from header.
+var $canUrl = document.querySelector("head > link[rel='canonical']");
+var canUrlValue = $canUrl.getAttribute("href");
 // console.log(canUrlValue);
-// // Make a redirection if not on page :
-// // collection
-// // cart
-// // checkout
-// if (!(canUrlValue == 'https://check-out.webshopapp.com/collection/' || canUrlValue == 'https://check-out.webshopapp.com/cart/' || canUrlValue == 'https://check-out.webshopapp.com/checkout/onestep/')) {
-//     window.location.href = "https://check-out.webshopapp.com/collection/";
-// }
+// Make a redirection if not on page :
+if (canUrlValue == 'https://check-out.webshopapp.com/') {
+    window.location.href = "https://check-out.webshopapp.com/collection/";
+}
 
 // Set First result on main frame.
 simulateMainFrameFirstLiClick();
