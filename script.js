@@ -137,6 +137,12 @@ function selectProduct() {
             // Set product title to show.
             $titleShow[0].innerHTML = $ClickedImgVariantTitleValue;
 
+            // Get main image status bar elements - BRAND, COLLAB, MODEL and COLOR.
+            var $productBrand = document.getElementById('checkout-product-brand');
+            var $productCollab = document.getElementById('checkout-product-collab');
+            var $productModel = document.getElementById('checkout-product-model');
+            var $productColor = document.getElementById('checkout-product-color');
+
             // Set class 'is-active' on product card of the clicked element.
             var $productCardActive = document.getElementsByClassName('is-active');
             // console.log($productCardActive);
@@ -157,10 +163,20 @@ function selectProduct() {
                     // Do something.
                     console.log(data);
                     console.log(data.variants);
-                    // Get product brand element.
-                    var $productBrand = document.getElementById('checkout-product-brand');
+
                     // Setting brand's product title.
                     $productBrand.innerHTML = data.brand.title;
+                    // Setting main image status bar infos from selected product.
+                    if (data.data_01) {
+                        // Set Collab if exists.
+                        $productCollab.innerHTML = data.data_01;
+                    } else {
+                        // Set Collab default.
+                        $productCollab.innerHTML = 'No Collab';
+                    }
+                    // Set Model and Color.
+                    $productModel.innerHTML = data.data_02;
+                    $productColor.innerHTML = data.data_03;
 
                     // Function returning shoe sizes sorted numerically.
                     function shoeSizesSort() {
