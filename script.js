@@ -76,8 +76,8 @@ function selectProduct() {
         if(target.className == 'checkout-img-clicked'){
 
             // Reset Cart button display.
-            $productAvailableContainer.classList.remove("checkout-product-available-on");
-            $productAvailableContainer.classList.add("checkout-product-available-off");
+            $productAvailableContainer.classList.remove("checkout-product-available-off");
+            $productAvailableContainer.classList.add("checkout-product-available-on");
 
             // Get clicked image Src.
             var clickedImgSrc = target.getAttribute('data-src');
