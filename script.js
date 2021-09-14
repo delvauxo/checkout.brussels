@@ -68,7 +68,7 @@ if (document.getElementById("checkout-product-size")) {
 }
 
 
-function myFunction() {
+function selectProduct() {
     // On clicked image.
     document.addEventListener('click', function(e) {
         e = e || window.event;
@@ -307,7 +307,7 @@ fetch(filterUrlFetch).then(function(response) {
                                         html += `<div class="prod-card__img-wrapper">`;
                                         html += `<!-- <a href="${data.products[i].url}"> -->`;
                                         html += `<figure class="media-wrapper media-wrapper--3:4 bg-contrast-lower">`;
-                                        html += `<img class="checkout-img-clicked" src="${dataProductImage300}" data-src="${dataProductImageFull}" title="${data.products[i].fulltitle}" onclick="myFunction()">`;
+                                        html += `<img class="checkout-img-clicked" src="${dataProductImage300}" data-src="${dataProductImageFull}" title="${data.products[i].fulltitle}" onclick="selectProduct()">`;
                                         html += `</figure>`;
                                         html += `<!-- </a> -->`;
                                         html += `<div class="prod-card__img-overlay"></div>`;
