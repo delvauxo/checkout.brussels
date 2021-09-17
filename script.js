@@ -258,9 +258,7 @@ function selectProduct() {
                         htmlSize += `data-select-product-stock="${productVariantStock}" `;
                         htmlSize += `onclick="clickButtonUpdateDatasOnPage()"`;
                         htmlSize += `>`;
-
                     }
-
                     // Insert SIZE to show in HTML.
                     $sizeShow.innerHTML = htmlSize;
                 });
