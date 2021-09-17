@@ -372,7 +372,6 @@ fetch(filterUrlFetch).then(function(response) {
                     .catch(function(error) {
                         console.log('Fetch operation failed: ' + error.message);
                     })
-                    // DISPLAY NAME (for example) OF EACH PRODUCT OF CURRENT PAGE.
                 }
             }
         });
@@ -385,7 +384,6 @@ fetch(filterUrlFetch).then(function(response) {
  console.log('Fetch operation failed: ' + error.message);
 })
 
-
 // Getting current CART URL.
 if (document.getElementById('product_configure_form')) {
     var currentCartURL = document.getElementById('product_configure_form').action;
@@ -394,7 +392,7 @@ if (document.getElementById('product_configure_form')) {
 
 function clickButtonUpdateDatasOnPage() {
     
-    // On selected size.
+    // Clicked on selected size.
     document.addEventListener('click', function(e) {
         e = e || window.event;
          var target = e.target; 
