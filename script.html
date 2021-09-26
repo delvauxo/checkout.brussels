@@ -57,7 +57,7 @@
         document.querySelector('#checkout-collection-products-container > ul > li figure > img').click();
       }
     }
-    
+
     // Get Main Frame Image.
     var $mainFrameImage = document.getElementById("MainFrameImage");
     // console.log($mainFrameImage);
@@ -87,7 +87,6 @@
         var $sizeShow = document.getElementById("checkout-product-size");
         // console.log($sizeShow[0]);
     }
-    
     
     function selectProduct() {
         // On clicked image.
@@ -491,7 +490,7 @@
                 var checkCart = checkUrl("/cart/");
                 var checkCheckout = checkUrl("/checkout/");
                 var checkPayment = checkUrl("/payment/");
-                // If on Account pages.
+                // If on ACCOUNT or CART or CHEKOUT or PAYMENT pages.
                 if (checkAccount || checkCart || checkCheckout || checkPayment) {
                     console.log('We are on an Account or Cart or Checkout or Payment page.');
                     var $mainContainer = document.getElementsByClassName("container max-width-lg");
