@@ -1,7 +1,7 @@
 <script>
 
 // PRELOAD collection images.
-// @params : myUrls[]
+@param {array} myUrls - Array of images to preload.
 function preloader(myUrls) {
     var myImages = new Array()
     function preload() {
@@ -26,6 +26,27 @@ function addLoadEvent(func) {
             }
             func();
         }
+    }
+}
+
+// Getting Cannonical URL.
+function getCanUrl() {
+    let $canUrl = document.querySelector("head > link[rel='canonical']");
+    let canUrlValue = $canUrl.getAttribute("href");
+    console.log(canUrlValue);
+    // Setting container max-width for unaccessible pages.
+}
+
+// Check if URL contain a specific string.
+@param {string} myPattern - pattern to search into url.
+function checkUrl(myPattern) {
+    // Get cannonical URL.
+    let canUrl = getCanUrl();
+    let canUrlCheck = canUrl.includes(myPattern);
+    if (canUrlCheck) {
+        console.log("CanUrl is true")
+    } else {
+        console.log("CanUrl is false")
     }
 }
 
@@ -451,9 +472,11 @@ if (canUrlValue == 'https://check-out.webshopapp.com/') {
     window.location.href = "https://check-out.webshopapp.com/collection/";
 }
 
+// Getting Cannonical URL.
+getCanUrl();
+
 // Set First result on main frame.
 simulateMainFrameFirstLiClick();
-
 
 // Get Collection's images.
 var collectionList = $('#checkout-collection-products-container > ul li figure img');
