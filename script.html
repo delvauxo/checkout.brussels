@@ -61,6 +61,24 @@
         }
     }
 
+    // Replace Cart product image link.
+    function replaceCartProductImgLink() {
+        // Get element - JQUERY.
+        let $productImgLink = $('#gui-form-cart .gui-image a');
+        for (let i = 0; i < $productImgLink.length; i++) {
+            const element = $productImgLink[i];
+            // Remove HREF attribute.
+            element.removeAttribute("href");
+        }
+        // Get element - JQUERY.
+        let $productLink = $('#gui-form-cart .gui-valign-top + td a');
+        for (let i = 0; i < $productLink.length; i++) {
+            const element = $productLink[i];
+            // Remove HREF attribute.
+            element.removeAttribute("href");
+        }
+    }
+
     // Remove the discount block.
     function removeDiscount() {
         let $discBlock = document.getElementsByClassName('gui-col3-equal-col2 gui-div-cart-coupons');
@@ -488,9 +506,6 @@
         window.location.href = "https://check-out.webshopapp.com/collection/";
     }
     
-    // Remove Discount block.
-    removeDiscount();
-
     /////// DETECT TYPE OF DEVICE.
     // Get header tags.
     var $userSupport = document.getElementsByTagName("header");
@@ -509,6 +524,7 @@
                 var checkAccount = checkUrl("/account/");
                 var checkCart = checkUrl("/cart/");
                 var checkCheckout = checkUrl("/checkout/");
+                var checkCollection = checkUrl("/collection/");
                 var checkPayment = checkUrl("/payment/");
                 // If on ACCOUNT or CART or CHEKOUT or PAYMENT pages.
                 if (checkAccount || checkCart || checkCheckout || checkPayment) {
@@ -523,8 +539,16 @@
                 }
                 if (checkCart) {
                     console.log('We are on a Cart page.');
+                    // Remove Discount block.
+                    removeDiscount();
+                    // Replace Cart product links.
+                    replaceCartProductImgLink();
+                    // Resize cart product image.
                     replaceCartProductImgUrl();
                 }
+                if (checkCollection) {
+                    console.log('We are on the Collection page.');
+                } 
                 // else if (checkCheckout) {
                 //     console.log('We are on a Checkout page.');
                 // } 
