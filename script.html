@@ -50,6 +50,17 @@
         }
     }
 
+    // Replace Cart product image URL.
+    function replaceCartProductImgUrl() {
+        // Get elements - JQUERY.
+        let $productImg = $('#gui-form-cart .gui-image img');
+        for (let i = 0; i < $productImg.length; i++) {
+            const element = $productImg[i];
+            // Replace good size img.
+            element.src = element.src.replace('100x100x1', '100x100x2');
+        }
+    }
+
     // Remove the discount block.
     function removeDiscount() {
         let $discBlock = document.getElementsByClassName('gui-col3-equal-col2 gui-div-cart-coupons');
@@ -477,6 +488,9 @@
         window.location.href = "https://check-out.webshopapp.com/collection/";
     }
     
+    // Remove Discount block.
+    removeDiscount();
+
     /////// DETECT TYPE OF DEVICE.
     // Get header tags.
     var $userSupport = document.getElementsByTagName("header");
@@ -506,12 +520,11 @@
                         element.classList.remove("max-width-lg");
                         element.classList.add("max-width-md");
                     }
-                    // Remove Discount block.
-                    removeDiscount();
                 }
-                // else if (checkCart) {
-                //     console.log('We are on a Cart page.');
-                // }
+                if (checkCart) {
+                    console.log('We are on a Cart page.');
+                    replaceCartProductImgUrl();
+                }
                 // else if (checkCheckout) {
                 //     console.log('We are on a Checkout page.');
                 // } 
