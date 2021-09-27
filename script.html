@@ -49,6 +49,12 @@
             return false;
         }
     }
+
+    // Remove the discount block.
+    function removeDiscount() {
+        let $discBlock = document.getElementsByClassName('gui-col3-equal-col2 gui-div-cart-coupons');
+        $discBlock[0].style.display = 'none';
+    }
     
     // Simulate a click on the first <li> element of the collection's list.
     function simulateMainFrameFirstLiClick() {
@@ -500,6 +506,8 @@
                         element.classList.remove("max-width-lg");
                         element.classList.add("max-width-md");
                     }
+                    // Remove Discount block.
+                    removeDiscount();
                 }
                 // else if (checkCart) {
                 //     console.log('We are on a Cart page.');
