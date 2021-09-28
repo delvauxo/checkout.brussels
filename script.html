@@ -84,6 +84,11 @@
         let $discBlock = document.getElementsByClassName('gui-col3-equal-col2 gui-div-cart-coupons');
         $discBlock[0].style.display = 'none';
     }
+
+    // Add disabled attribute to Add to Cart button.
+    function disableAdd2CartBtn() {
+        $add2CartButton.disabled = true;
+    }
     
     // Simulate a click on the first <li> element of the collection's list.
     function simulateMainFrameFirstLiClick() {
@@ -122,18 +127,26 @@
         var $sizeShow = document.getElementById("checkout-product-size");
         // console.log($sizeShow[0]);
     }
-    
+    // Get add to cart button element.
+    if (document.querySelector('.checkout-btn-add-to-cart')) {
+        var $add2CartButton = document.querySelector('.checkout-btn-add-to-cart');
+        console.log($add2CartButton);
+    }
+
     function selectProduct() {
         // On clicked image.
         document.addEventListener('click', function(e) {
             e = e || window.event;
              var target = e.target; 
             if(target.className == 'checkout-img-clicked'){
-    
+
                 // Reset Cart button display.
                 $productAvailableContainer.classList.remove("checkout-product-available-off");
                 $productAvailableContainer.classList.add("checkout-product-available-on");
-    
+
+                // Disable Add to cart button.
+                disableAdd2CartBtn();
+
                 // Get clicked image Src.
                 var clickedImgSrc = target.getAttribute('data-src');
                 // console.log(clickedImgSrc);
@@ -446,11 +459,15 @@
     }
     
     function clickButtonUpdateDatasOnPage() {
-        
+
         // Clicked on selected size.
         document.addEventListener('click', function(e) {
             e = e || window.event;
              var target = e.target; 
+            // Remove existing disabled state for Add to Cart button.
+            if ($add2CartButton.hasAttribute("disabled")) {
+                $add2CartButton.removeAttribute('disabled');
+            }
             // Get variant ID.
             var SelectedVariantID = target.getAttribute("variantId");
             // Get cart URL.
